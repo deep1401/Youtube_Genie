@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded",()=>{
     // Regulat expressions
     let regexReplace=/(<|>)/gi
     let regexSplit=/(v=| vi\/ | \/v\/ | youtu\.be\/ | \/embed\/)/
-    let regexId=/[^0-9a-z\-]/i
+    let regexId=/[^0-9a-z\-*_$#!^]/i
+    let regexUrlModify=/&.*/g
 
     const timeConvertor=(seconds)=>{
         let str=""
@@ -49,7 +50,8 @@ const  displayData=(data,tab)=>{
         li.addEventListener("click",(e)=>{
             e.preventDefault()
             let time=parseInt(ele.start)
-            let newUrl=tab.url+"&t="+time
+            let baseUrl=tab.url.replace(regexUrlModify,"")
+            let newUrl=baseUrl+"&t="+time
             chrome.tabs.update(tab.id,{url:newUrl})
         
 
