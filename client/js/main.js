@@ -21,10 +21,8 @@ document.addEventListener("DOMContentLoaded",()=>{
     
     
     
-    
-    
 
-const  displayData=(data)=>{
+const  displayData=(data,tab)=>{
     output.innerHTML=""
 
     const ul=document.createElement("ul")
@@ -48,6 +46,14 @@ const  displayData=(data)=>{
                         </div>
                         
         `
+        li.addEventListener("click",(e)=>{
+            e.preventDefault()
+            let time=parseInt(ele.start)
+            let newUrl=tab.url+"&t="+time
+            chrome.tabs.update(tab.id,{url:newUrl})
+        
+
+        })
         ul.appendChild(li)
     })
     output.appendChild(ul)
@@ -56,7 +62,7 @@ const  displayData=(data)=>{
 
 
 
-const getResponse=async(video_id,userQuestion)=>{
+const getResponse=async(video_id,userQuestion,tab)=>{
     const formdata=new FormData()
     formdata.append("video_id",video_id)
     formdata.append("question",userQuestion)
@@ -68,7 +74,7 @@ const getResponse=async(video_id,userQuestion)=>{
         const res=await fetch("http://127.0.0.1:5000/response",options)
         const data=await res.json()
         console.log(data)
-        displayData(data)
+        displayData(data,tab)
     }
     catch(err){
         console.log(err)
@@ -95,7 +101,7 @@ const getResponse=async(video_id,userQuestion)=>{
             if(id!==undefined){
                 id=id.split(regexId)[0]
             }
-            getResponse(id,userInput)
+            getResponse(id,userInput,tabs[0])
             const div2=document.createElement("div")
             div2.className="p-4 mt-1 text-center"
             div2.innerHTML=`VideoId : <span class="text-primary font-weight-bold">${id}</span>
