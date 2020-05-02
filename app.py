@@ -39,6 +39,7 @@ def hello_world():
 @app.route('/response',methods=['POST'])
 def get_everything():
     video_id=request.form.get('video_id')
+    print(video_id)
     x=get_transcript(video_id)
     raw = ''
     for i in range(len(x)):
