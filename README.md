@@ -5,7 +5,7 @@
 ## Getting started
 Backend(API)
 ```
-pip install -r requirementa.txt
+pip install -r requirements.txt
 python app.py
 ```
 Alternative Run the build.sh file as :-
