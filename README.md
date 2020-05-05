@@ -1,6 +1,6 @@
 # Youtube_Extension
 
->A chrome extension which helps you navigate to the part of video having the content you are looking for. We are at the start >of the project and thus, will keep on building to improve the result accuracy
+>A chrome extension which helps you navigate to the part of video having the content you are looking for. We are at the start of the project and thus, will keep on building to improve the result accuracy
 
 ## Getting started
 Backend(API)
