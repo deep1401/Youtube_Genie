@@ -40,13 +40,13 @@ const  displayData=(data,tab)=>{
 
                         <div class="row">
                             <div class="col-md-1"></div>
-                            <div class="col-md-10"><span class="text-primary font-weight-bold">Text</span>: <span class="font-weight-bold">${ele.text}</span> </div>
+                            <div class="col-md-10"><span class="font-weight-bold">Text</span>: <span>${ele.text}</span> </div>
                             <div class="col-md-1"></div>
                         </div> 
                         <div class="row">
                             <div class="col-md-1"></div>
-                            <div class="col-sm-5"><span class="text-primary font-weight-bold">Start</span>: <span class="font-weight-bold">${timeConvertor(ele.start)}</span> </div>
-                            <div class="col-sm-5"><span class="text-primary font-weight-bold">Duration</span>: <span class="font-weight-bold">${timeConvertor(ele.duration)}</span>  </div>
+                            <div class="col-sm-5"><span class="font-weight-bold">Start</span>: <span>${timeConvertor(ele.start)}</span> </div>
+                            <div class="col-sm-5"><span class="font-weight-bold">Duration</span>: <span>${timeConvertor(ele.duration)}</span>  </div>
                             <div class="col-md-1"></div>
                         </div>
                         
