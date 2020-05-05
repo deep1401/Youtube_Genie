@@ -19,3 +19,15 @@ bash build.sh
 3) Select load unpack package (top left corner)
 4) Browse and select the client folder of the project
 5) Boom you will see the app in extensions bar...
+
+## Screenshots
+
+### On opening the extension
+![](https://github.com/jashmehta3300/Screenshots/blob/master/Youtube-Genie/capture1.JPG)
+
+### When you search for something
+![](https://github.com/jashmehta3300/Screenshots/blob/master/Youtube-Genie/Capture2.JPG)
+
+### On clicking the result
+![](https://github.com/jashmehta3300/Screenshots/blob/master/Youtube-Genie/Capture3.JPG)
+
