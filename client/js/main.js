@@ -30,7 +30,7 @@ const  displayData=(data,tab)=>{
     ul.className="list-group"
     if(data.length==0){
         output.innerHTML=`
-        <h3 class="text-primary text-center">No match found..<br>Try something related to video!!!</br></h3>
+        <span class="text-primary font-weight-bold f-3 text-center">No match found..<br>Try something related to video!!!</br></span>
         `
     }
     data.forEach(ele=>{
@@ -98,21 +98,35 @@ const getResponse=async(video_id,userQuestion,tab)=>{
         let id;
         chrome.tabs.query({currentWindow:true,active:true},(tabs)=>{
             let url=tabs[0].url
-            // const div=document.createElement("div")
-            // div.className="p-4 mt-1"
-            // div.innerHTML=url
-            // output.appendChild(div)
-            
-            id=url.replace(regexReplace,"").split(regexSplit)[2]
-            if(id!==undefined){
-                id=id.split(regexId)[0]
-            }
-            getResponse(id,userInput,tabs[0])
+
             const div2=document.createElement("div")
             div2.className="p-4 mt-1 text-center"
-            div2.innerHTML=`VideoId : <span class="text-primary font-weight-bold">${id}</span>
-            <h4>loading ... </h4>`
-            output.appendChild(div2)
+            output.innerHTML=""
+
+            
+            if(url.includes("youtube") || url.includes("youtu.be"))
+            {
+                id=url.replace(regexReplace,"").split(regexSplit)[2]
+
+                if(id!==undefined){
+                    id=id.split(regexId)[0]
+                }
+
+                if(userInput==""){
+                    div2.innerHTML=`<span class="text-primary font-weight-bold f-3">Please enter some text to search...</span> `
+                    output.appendChild(div2)
+                }
+                else{
+                    getResponse(id,userInput,tabs[0])
+                    div2.innerHTML=`VideoId : <span class="text-primary font-weight-bold">${id}</span>
+                    <h4>loading ... </h4>`
+                    output.appendChild(div2)
+                }
+            }
+            else{
+                div2.innerHTML=`<span class="text-primary font-weight-bold f-3">Please Switch to any Youtube video to continue your experience...</span> `
+                output.appendChild(div2)
+            }
         })
         
     })
