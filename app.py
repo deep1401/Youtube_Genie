@@ -1,8 +1,8 @@
-from flask import Flask,request,jsonify
-from flask_cors import CORS,cross_origin
+from flask import Flask, request, jsonify
+from flask_cors import CORS, cross_origin
 import io
 import random
-import string # to process standard python strings
+import string  # to process standard python strings
 import warnings
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -11,16 +11,15 @@ import nltk
 from nltk.stem import WordNetLemmatizer
 import warnings
 from youtube_transcript_api import YouTubeTranscriptApi
-nltk.download('popular',quiet=True) # for downloading packages
-nltk.download('punkt') # first-time use only
-nltk.download('wordnet') # first-time use only
-warnings.filterwarnings('ignore')
 
+nltk.download('popular', quiet=True)  # for downloading packages
+nltk.download('punkt')  # first-time use only
+nltk.download('wordnet')  # first-time use only
+warnings.filterwarnings('ignore')
 
 app = Flask(__name__)
 CORS(app, support_credentials=True)
 app.config["DEBUG"] = True
-
 
 
 def get_transcript(video_id):
@@ -36,11 +35,10 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/response',methods=['POST'])
+@app.route('/response', methods=['POST'])
 def get_everything():
-    video_id=request.form.get('video_id')
-    print(video_id)
-    x=get_transcript(video_id)
+    video_id = request.form.get('video_id')
+    x = get_transcript(video_id)
     raw = ''
     for i in range(len(x)):
         raw += (x[i]['text']) + ". "
@@ -77,7 +75,7 @@ def get_everything():
         flat = vals.flatten()
         flat.sort()
         req_tfidf = flat[-2]
-        if (req_tfidf == 0):
+        if req_tfidf == 0:
             robo_response = robo_response + "I am sorry! I don't understand you"
             return robo_response
         else:
@@ -85,35 +83,28 @@ def get_everything():
             # print(idx)
             return robo_response
 
-    l1 = []
     user_response = request.form.get('question')
     user_response = user_response.lower()
-    if (user_response != 'bye'):
-        if (user_response == 'thanks' or user_response == 'thank you'):
+    if user_response != 'bye':
+        if user_response == 'thanks' or user_response == 'thank you':
 
-            print("ROBO: You are welcome..")
+            return jsonify([])
         else:
-            if (greeting(user_response) != None):
-                print("ROBO: " + greeting(user_response))
+            if greeting(user_response) is not None:
+                return jsonify([])
             else:
                 answer = response(user_response)
-                #print(answer)
                 sent_tokens.remove(user_response)
-                if (answer != "I am sorry! I don't understand you"):
+                if answer != "I am sorry! I don't understand you":
                     l = answer.split('. ')
                     for i in range(len(l)):
                         l[i] = l[i].strip('. ')
-                    for j in l:
-                        for i in range(len(x)):
-                            if (j in x[i]['text'].lower()):
-                                l1.append(i)
-                    print(l1)
-    else:
+                    l1 = [i for i in range(len(x)) for j in l if j in x[i]['text'].lower()]
+                    # print(l1)
+                else:
+                    return jsonify([])
 
-        print("ROBO: Bye! take care..")
-    data_list=[]
-    for temp in l1:
-        data_list.append(x[temp])
+    data_list = [x[temp] for temp in l1]
     return jsonify(data_list)
 
 
