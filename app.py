@@ -1,17 +1,16 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-import io
 import random
 import string  # to process standard python strings
 import warnings
-import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import nltk
 from nltk.stem import WordNetLemmatizer
-import warnings
 from youtube_transcript_api import YouTubeTranscriptApi
+from BertQA import bertqa
 
+# Download packages once, it'll cache for the other times
 nltk.download('popular', quiet=True)  # for downloading packages
 nltk.download('punkt')  # first-time use only
 nltk.download('wordnet')  # first-time use only
@@ -26,7 +25,7 @@ def get_transcript(video_id):
     try:
         return YouTubeTranscriptApi.get_transcript(video_id)
 
-    except:
+    except Exception:
         print("Something went wrong!")
 
 
@@ -106,6 +105,14 @@ def get_everything():
 
     data_list = [x[temp] for temp in l1]
     return jsonify(data_list)
+
+
+@app.route('/bertqa', methods=['POST'])
+def get_answer():
+    question = request.form.get('question')
+    answer = request.form.get('answer')
+    correct_answer = bertqa.give_answer(question, answer)
+    return correct_answer
 
 
 if __name__ == '__main__':
