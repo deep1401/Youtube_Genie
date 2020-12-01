@@ -112,7 +112,7 @@ def get_answer():
     question = request.form.get('question')
     answer = request.form.get('answer')
     correct_answer = bertqa.give_answer(question, answer)
-    return correct_answer
+    return jsonify([correct_answer])
 
 
 if __name__ == '__main__':
